@@ -28,8 +28,9 @@ contract MerkleAirdropTest is Test, ZkSyncChainChecker {
             (airdrop, token) = deployer.run();
         }else {
             // if it is zksync chain, we have to deploy manually
-            airdrop = new MerkleAirdrop(ROOT, IERC20(address(token)));
             token = new BagelToken();
+            airdrop = new MerkleAirdrop(ROOT, IERC20(address(token)));
+            
             // mint some tokens to the contract deployer
             token.mint(token.owner(), s_amountToTransfer);
             // transfer the tokens to the airdrop

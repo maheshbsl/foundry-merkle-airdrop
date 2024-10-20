@@ -8,6 +8,7 @@ import {EIP712} from "@openzeppelin/contracts/utils/cryptography/EIP712.sol";
 import {ECDSA} from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 
 contract MerkleAirdrop is EIP712 {
+    using ECDSA for bytes32;
     using SafeERC20 for IERC20;
 
     error MerkleAirdrop_InvalidProof();
@@ -63,7 +64,7 @@ contract MerkleAirdrop is EIP712 {
             revert MerkleAirdrop_InavlidSignature();
         }
         // leaf -> take address and amount and hash it
-        bytes32 leaf = keccak256(abi.encode(account, amount));
+        bytes32 leaf = keccak256(bytes.concat(keccak256(abi.encode(account, amount))));
 
         // proof
         // if the proof is invalid then revert

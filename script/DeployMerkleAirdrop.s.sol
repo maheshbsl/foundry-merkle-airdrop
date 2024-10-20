@@ -19,12 +19,13 @@ contract DeployMerkleAirdrop is Test {
 
    function deployMerkleAirdrop() public returns (MerkleAirdrop, BagelToken) {
        vm.startBroadcast();
-       airdrop = new MerkleAirdrop(ROOT, IERC20(address(token)));
-       token = new BagelToken();
+        token = new BagelToken();
+        airdrop = new MerkleAirdrop(ROOT, IERC20(address(token)));
+      
        // mint some tokens to the contract deployer
        token.mint(token.owner(),s_amountToTransfer);
        // transfer the tokens to the airdrop
-       token.transfer(address(airdrop), s_amountToTransfer);
+       IERC20(token).transfer(address(airdrop), s_amountToTransfer);
        vm.stopBroadcast();
        return (airdrop, token);
    }
